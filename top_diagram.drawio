@@ -1,9 +1,75 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36" version="29.6.4">
   <diagram name="第 1 页" id="sxCa080pm_w9d3FJo-T1">
-    <mxGraphModel dx="1267" dy="717" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1014" dy="574" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=18;fontStyle=1" value="Async FIFO 架构" vertex="1">
+          <mxGeometry height="30" width="200" x="320" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="wr_domain_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#0288d1" value="写时钟域 wr_clk" vertex="1">
+          <mxGeometry height="320" width="260" x="40" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="wr_ptr_bin" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff" value="写二进制指针 &lt;br/&gt;wr_ptr_bin" vertex="1">
+          <mxGeometry height="60" width="180" x="70" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="wr_bin2gray" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff" value="二进制转格雷码 &lt;br/&gt;bin2gray" vertex="1">
+          <mxGeometry height="60" width="180" x="70" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="wr_full_logic" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff" value="满信号判断 &lt;br/&gt;full logic" vertex="1">
+          <mxGeometry height="60" width="180" x="70" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="rd_domain_box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2" value="读时钟域 rd_clk" vertex="1">
+          <mxGeometry height="320" width="260" x="540" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rd_ptr_bin" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff" value="读二进制指针 &lt;br/&gt;rd_ptr_bin" vertex="1">
+          <mxGeometry height="60" width="180" x="570" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="rd_bin2gray" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff" value="二进制转格雷码 &lt;br/&gt;bin2gray" vertex="1">
+          <mxGeometry height="60" width="180" x="570" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="rd_empty_logic" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff" value="空信号判断 &lt;br/&gt;empty logic" vertex="1">
+          <mxGeometry height="60" width="180" x="570" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="dpram" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#f57c00" value="双口RAM &lt;br/&gt;Dual Port RAM" vertex="1">
+          <mxGeometry height="100" width="160" x="340" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="sync_wr2rd" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f8e9;strokeColor=#558b2f" value="2级同步器 &lt;br/&gt;wr_gray → rd_clk" vertex="1">
+          <mxGeometry height="70" width="160" x="340" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sync_rd2wr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f8e9;strokeColor=#558b2f" value="2级同步器 &lt;br/&gt;rd_gray → wr_clk" vertex="1">
+          <mxGeometry height="70" width="160" x="340" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" edge="1" parent="1" source="wr_bin2gray" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;" target="sync_wr2rd" value="wr_gray">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" edge="1" parent="1" source="rd_bin2gray" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;" target="sync_rd2wr" value="rd_gray">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" edge="1" parent="1" source="sync_rd2wr" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;" target="wr_full_logic" value="sync_rd_gray">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" edge="1" parent="1" source="sync_wr2rd" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;" target="rd_empty_logic" value="sync_wr_gray">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" edge="1" parent="1" source="wr_ptr_bin" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;" target="dpram" value="wr_addr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" edge="1" parent="1" source="rd_ptr_bin" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;" target="dpram" value="rd_addr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" edge="1" parent="1" source="wr_ptr_bin" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;" target="wr_bin2gray" value="wr_ptr_bin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" edge="1" parent="1" source="rd_ptr_bin" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;" target="rd_bin2gray" value="rd_ptr_bin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" edge="1" parent="1" source="wr_ptr_bin" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;" target="wr_full_logic" value="wr_ptr_bin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" edge="1" parent="1" source="rd_ptr_bin" style="endArrow=block;html=1;edgeStyle=orthogonalEdgeStyle;" target="rd_empty_logic" value="rd_ptr_bin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
